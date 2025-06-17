@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>나누슈</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    body { background-color: #FDF9F5; color: #333; }
+    header { background-color: #F7B6B3; padding: 1rem 2rem; text-align: center; color: white; }
+    nav { display: flex; justify-content: center; background-color: #FFF0ED; padding: 0.5rem; gap: 1.5rem; }
+    nav a { text-decoration: none; color: #F47C7C; font-weight: bold; }
+    nav a:hover { text-decoration: underline; }
+    .container { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; }
+    h2 { margin-bottom: 1rem; color: #F47C7C; }
+    h3 { margin-top: 1.5rem; margin-bottom: 0.5rem; color: #F47C7C; cursor: pointer; }
+    .post-list { display: grid; gap: 1rem; margin-top: 1rem; }
+    .post { background-color: white; border: 1px solid #eee; border-radius: 10px; padding: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .post p { font-size: 0.9rem; color: #555; }
+    .guide, .format { background-color: #fff6f6; border-left: 4px solid #F47C7C; padding: 1rem; border-radius: 6px; margin-top: 1rem; line-height: 1.6; }
+    footer { text-align: center; font-size: 0.8rem; color: #aaa; margin-top: 4rem; padding-bottom: 1rem; }
+    .section { display: none; }
+    .section.active { display: block; }
+    .tabs { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .tabs button { padding: 0.5rem 1rem; border: none; background-color: #FFE7E5; border-radius: 6px; cursor: pointer; color: #F47C7C; font-weight: bold; }
+    .tabs button.active { background-color: #F47C7C; color: white; }
+    .category-section { display: none; }
+    .category-section.active { display: block; }
+    .detail { background-color: #fff; border: 1px solid #eee; padding: 1.5rem; border-radius: 10px; margin-top: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .detail h3 { color: #F47C7C; margin-bottom: 0.5rem; }
+    .back-button { margin-top: 1rem; background-color: #F47C7C; color: white; padding: 0.5rem 1rem; border: none; border-radius: 6px; cursor: pointer; }
+    .search-bar { margin-bottom: 1rem; display: flex; justify-content: space-between; gap: 1rem; }
+    .search-bar input { flex: 1; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; }
+    .comment-box { margin-top: 2rem; }
+    .comment-box textarea { width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid #ccc; margin-bottom: 0.5rem; }
+    .comment-box button { background-color: #F47C7C; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+    .comment-list { margin-top: 1rem; font-size: 0.9rem; color: #444; }
+    .comment-item { padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>나누슈</h1>
+    <p>슈니들을 위한 따뜻한 무료 나눔 공간</p>
+  </header>
+
+  <nav>
+    <a href="#" onclick="showSection('main')">홈</a>
+    <a href="#" onclick="showSection('free')">무료 나눔 게시판</a>
+    <a href="#" onclick="showSection('review')">후기 게시판</a>
+  </nav>
+
+  <div class="container section active" id="main">
+    <h2>📦 나누슈에 오신 걸 환영해요!</h2>
+    <p>사용하지 않는 물건을 나누고, 필요한 물건은 받아가세요. 따뜻한 캠퍼스를 함께 만들어요 💕</p>
+
+    <h3>✨ 이용 방법</h3>
+    <div class="guide">
+      1. 더 이상 필요하지 않은 물건이나 기프티콘을 카테고리에 맞게 무료 나눔 게시판에 올려 주세요.<br>
+      2. 무료 나눔 게시글에 댓글을 달아 나눔받으세요.<br>
+      3. 나눔이 완료되면 게시글을 수정하거나 삭제해 주세요.<br>
+      4. 나눔을 받은 분은 후기 게시판에 따뜻한 감사의 글을 남겨 주세요.<br>
+      5. 기프티콘을 사용했을 땐 다른 학우가 헛걸음하지 않도록 바로 댓글을 달아 주세요.
+    </div>
+
+    <h3>📝 무료 나눔 게시글 작성 예시</h3>
+    <div class="format">
+      <strong>제목:</strong> 스타벅스 아메리카노 기프티콘 ☕<br>
+      <strong>내용:</strong><br>
+      스타벅스가 주변에 없어서 나눔해요!<br>
+      ✔️ 기한: 6월 20일까지<br>
+      ✔️ 코드: XXXX-XXXX-XXXX<br>
+      ✔️ 선착순입니다.<br>
+      사용 후 댓글로 알려주세요!→
+      <image src="T.jpg" width="200" height="200">
+    </div>
+  </div>
+
+  <div class="container section" id="free">
+    <h2>🎁 무료 나눔 게시판</h2>
+    <div class="search-bar">
+      <input type="text" id="freeSearch" onkeyup="filterPosts('free')" placeholder="검색어를 입력하세요...">
+    </div>
+    <div class="tabs">
+      <button onclick="showCategory('all', 'free')" class="active">전체</button>
+      <button onclick="showCategory('food', 'free')">식품</button>
+      <button onclick="showCategory('stationery', 'free')">학용품</button>
+      <button onclick="showCategory('clothes', 'free')">의류</button>
+      <button onclick="showCategory('daily', 'free')">생활 용품</button>
+      <button onclick="showCategory('etc', 'free')">기타</button>
+    </div>
+
+<div id="free-all" class="category-section active">
+  <div class="post-list" id="free-post-list">
+    <div class="post" onclick="showDetail('gift')"><h3>스타벅스 아메리카노 기프티콘</h3><p>사용 후 댓글 남겨 주세요</p></div>
+    <div class="post" onclick="showDetail('notebook')"><h3>새 노트 3권</h3><p>전혀 안 쓴 새 노트입니다!</p></div>
+    <div class="post" onclick="showDetail('shirt')"><h3>흰색 블라우스 M</h3><p>한 번 착용했어요</p></div>
+    <div class="post" onclick="showDetail('instantRamen')"><h3>컵라면 5개</h3><p>제가 안 좋아하는 거라 나눔해요</p></div>
+    <div class="post" onclick="showDetail('candy')"><h3>사탕 기프티콘</h3><p>사용하시면 꼭 댓글로 알려 주세요!</p></div>
+    <div class="post" onclick="showDetail('penSet')"><h3>펜 세트</h3><p>일괄로 한 분께 나눔합니다!</p></div>
+    <div class="post" onclick="showDetail('tissueBox')"><h3>휴지 3개</h3><p>기숙사 나가기 전에 짐 덜려고 나눔해요!</p></div>
+    <div class="post" onclick="showDetail('miscItem')"><h3>스티커</h3><p>제가 몇 개 사용한 것도 있습니다</p></div>
+  </div>
+</div>
+
+<!-- 식품 -->
+<div id="free-food" class="category-section">
+  <div class="post-list">
+    <div class="post" onclick="showDetail('instantRamen')"><h3>컵라면 5개</h3><p>제가 안 좋아하는 거라 나눔해요</p></div>
+    <div class="post" onclick="showDetail('candy')"><h3>사탕 기프티콘</h3><p>사용하시면 꼭 댓글로 알려 주세요!</p></div>
+  </div>
+</div>
+
+<!-- 학용품 -->
+<div id="free-stationery" class="category-section">
+  <div class="post-list">
+    <div class="post" onclick="showDetail('penSet')"><h3>펜 세트</h3><p>일괄로 한 분께 나눔합니다!</p></div>
+    <div class="post" onclick="showDetail('notebook')"><h3>새 노트 3권</h3><p>전혀 안 쓴 새 노트입니다!</p></div>
+  </div>
+</div>
+
+<!-- 의류 -->
+<div id="free-clothes" class="category-section">
+  <div class="post-list">
+    <div class="post" onclick="showDetail('shirt')"><h3>흰색 블라우스 M</h3><p>한 번 착용했어요</p></div>
+  </div>
+</div>
+
+<!-- 생활 용품 -->
+<div id="free-daily" class="category-section">
+  <div class="post-list">
+    <div class="post" onclick="showDetail('tissueBox')"><h3>휴지 3개</h3><p>기숙사 나가기 전에 짐 덜려고 나눔해요!</p></div>
+  </div>
+</div>
+
+<!-- 기타 -->
+<div id="free-etc" class="category-section">
+  <div class="post-list">
+    <div class="post" onclick="showDetail('miscItem')"><h3>스티커</h3><p>제가 몇 개 사용한 것도 있습니다</p></div>
+  </div>
+</div>
+
+<div class="container section" id="review">
+  <h2>💌 후기 게시판</h2>
+  <div class="search-bar">
+    <input type="text" id="reviewSearch" onkeyup="filterPosts('review')" placeholder="검색어를 입력하세요...">
+  </div>
+  <div class="tabs">
+    <button onclick="showCategory('all', 'review')" class="active">전체</button>
+    <button onclick="showCategory('cert', 'review')">인증</button>
+    <button onclick="showCategory('thanks', 'review')">후기</button>
+  </div>
+
+  <div id="review-all" class="category-section active">
+    <div class="post-list" id="review-post-list">
+      <div class="post" onclick="showReviewDetail('cup')"><h3>기프티콘 감사합니다</h3><p>잘 먹었습니다!</p></div>
+      <div class="post" onclick="showReviewDetail('shirt')"><h3>예쁜 셔츠 감사합니다!</h3><p>잘 입겠습니다!</p></div>
+      <div class="post" onclick="showReviewDetail('stand')"><h3>나눔 감사합니다 💕</h3><p>책상 거치대 잘 쓰고 있어요!</p></div>
+    </div>
+  </div>
+
+  <div id="review-cert" class="category-section">
+    <div class="post-list">
+      <div class="post" onclick="showReviewDetail('shirt')"><h3>기프티콘 감사합니다</h3><p>잘 먹었습니다!</p></div>
+    </div>
+  </div>
+
+  <div id="review-thanks" class="category-section">
+    <div class="post-list">
+      <div class="post" onclick="showReviewDetail('cup')"><h3>예쁜 셔츠 감사합니다!</h3><p>잘 입겠습니다!</p></div>
+      <div class="post" onclick="showReviewDetail('stand')"><h3>나눔 감사합니다 💕</h3><p>책상 거치대 잘 쓰고 있어요!</p></div>
+    </div>
+  </div>
+</div>
+
+
+  <footer>
+    © 나누슈 - 서울여대 교내 무료 나눔
+  </footer>
+
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    function showCategory(category, board) {
+      const buttons = document.querySelectorAll(`#${board} .tabs button`);
+      buttons.forEach(b => b.classList.remove('active'));
+      const targetButton = Array.from(buttons).find(b => b.textContent === (board === 'review' ? (category === 'cert' ? '인증' : '후기') : {
+        'all': '전체', 'food': '식품', 'stationery': '학용품', 'clothes': '의류', 'daily': '생활 용품', 'etc': '기타'
+      }[category]));
+      if (targetButton) targetButton.classList.add('active');
+
+      document.querySelectorAll(`#${board} .category-section`).forEach(c => c.classList.remove('active'));
+      document.getElementById(`${board}-${category}`).classList.add('active');
+    }
+
+    function showDetail(id) {
+      const content = {
+        gift: `<h3>스타벅스 아메리카노 기프티콘</h3><p>✔️ 유효기간: 6월 20일까지<br>✔️ 코드: XXXX-XXXX-XXXX<br>✔️ 먼저 사용하신 분은 꼭 댓글 남겨주세요!</p>`,
+        notebook: `<h3>새 노트 3권</h3><p>✔️ 상태: 미사용<br>✔️ 위치: 학생회관 앞<br>✔️ 선착순 드림!</p>`,
+        shirt: `<h3>흰색 블라우스 M</h3><p>✔️ 상태: 새 상품<br>✔️ 사이즈: M<br>✔️ 예쁩니다!</p>`
+      };
+      document.getElementById('free-detail-content').innerHTML = content[id] || '게시글을 찾을 수 없습니다.';
+      showSection('free-detail');
+    }
+
+    function showReviewDetail(id) {
+      const content = {
+        cup: `<h3>기프티콘 감사합니다</h3><p>햄버거 너무 맛있었어요! 덕분에 기분 좋은 하루 보냈습니다.</p>`,
+        shirt: `<h3>예쁜 셔츠 감사합니다!</h3><p>셔츠 진짜 예뻐요. 인증 사진도 올려요! 너무 감사해요 ♡</p>`,
+        stand: `<h3>나눔 감사합니다 💕</h3><p>필요했던 거치대를 받아서 책상 위가 훨씬 정리됐어요! 감사합니다!</p>`
+      };
+      document.getElementById('review-detail-content').innerHTML = content[id] || '후기 글을 찾을 수 없습니다.';
+      showSection('review-detail');
+    }
+
+    function addComment(board) {
+      const inputId = board === 'free' ? 'free-comment-input' : 'review-comment-input';
+      const listId = board === 'free' ? 'free-comment-list' : 'review-comment-list';
+      const input = document.getElementById(inputId);
+      const list = document.getElementById(listId);
+      if (input.value.trim() !== '') {
+        const div = document.createElement('div');
+        div.className = 'comment-item';
+        div.textContent = input.value;
+        list.appendChild(div);
+        input.value = '';
+      }
+    }
+
+    function filterPosts(board) {
+      const input = document.getElementById(`${board}Search`).value.toLowerCase();
+      const posts = document.querySelectorAll(`#${board}-post-list .post`);
+      posts.forEach(post => {
+        const text = post.textContent.toLowerCase();
+        post.style.display = text.includes(input) ? 'block' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>
